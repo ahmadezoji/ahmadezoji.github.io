@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bid Form</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <h3>Enter Bid Details</h3>
+  <label>Amount: <input type="number" id="amount" /></label><br><br>
+  <label>Period (days): <input type="number" id="period" /></label><br><br>
+  <button onclick="submitData()">Submit</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+
+    function submitData() {
+      const amount = document.getElementById("amount").value;
+      const period = document.getElementById("period").value;
+
+      // Send data back to your bot
+      tg.sendData(JSON.stringify({ amount, period }));
+      tg.close(); // close the web app
+    }
+
+    tg.expand(); // makes it fullscreen
+  </script>
+</body>
+</html>
