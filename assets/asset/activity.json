@@ -1,0 +1,193 @@
+{
+    "id": "T0000023152",
+    "planningDate": "2025-03-25",
+    "startDateTime": null,
+    "endDateTime": null,
+    "dispatcher": {
+        "name": "Z Eyüp",
+        "surname": "Yıldız",
+        "middleName": "Test",
+        "title": "",
+        "referenceName": "",
+        "email": "eyup.yildiz@portx.net",
+        "mobile": "",
+        "phone": ""
+    },
+    "type": "CONTAINER",
+    "orderNo": 1,
+    "status": "IN_PROGRESS",
+    "isModified": false,
+    "version": 1,
+    "activities": [
+        {
+            "id": 33102,
+            "awaitedByAnotherTrip": false,
+            "shipment": {
+                "id": "S0000023482",
+                "businessPartyName": "",
+                "billOfLading": "12",
+                "containerNumber": "cn120",
+                "containerWeight": 1200,
+                "containerType": {
+                    "id": 1,
+                    "type": "CONTAINER",
+                    "name": "Dry-Standard (40FT)",
+                    "description": null,
+                    "orderNo": 1,
+                    "code": "42G0",
+                    "minSize": 20,
+                    "maxSize": 40,
+                    "capacity": null,
+                    "maxCapacity": null
+                },
+                "deliverDateTime": null,
+                "documentValueType": "IMPORT",
+                "bookingNumber": null,
+                "isHazmat": true,
+                "isNeedGenset": true
+            },
+            "chassis": null,
+            "tags": [],
+            "events": [
+                {
+                    "id": 96269,
+                    "tripActivityEventId": 166031,
+                    "eventType": "CHASSIS_PICKUP",
+                    "addressStr": "360 Mill Pond Way, NJ, Edison, 08817",
+                    "orderNo": 1,
+                    "status": "RELEASED",
+                    "selectedStartDateTime": null,
+                    "selectedEndDateTime": null,
+                    "proceedDateTime": null,
+                    "appointmentDate": null,
+                    "appointmentNumber": null,
+                    "appointmentStatus": null,
+                    "addressType": "BUSINESS_PARTY",
+                    "addressLat": 40.5552889,
+                    "addressLong": -74.3816668,
+                    "email": "Qp.team@modeglobal.com,Michelle.purkiss@modeglobal.com,gizem.vatan@portx.net,sendmybill@modeglobal.com",
+                    "address": {
+                        "id": 1565,
+                        "name": "ALBA",
+                        "latitude": "40.5552889",
+                        "longitude": "-74.3816668",
+                        "addressType": "BUSINESS_PARTY",
+                        "state": {
+                            "name": "New Jersey",
+                            "code": "NJ"
+                        },
+                        "city": {
+                            "id": 30808,
+                            "name": "Edison"
+                        },
+                        "zipCode": "08817",
+                        "address1": "360 Mill Pond Way",
+                        "address2": "",
+                        "isGeneric": false
+                    },
+                    "chassis": null,
+                    "chassisType": null,
+                    "eventNotes": [],
+                    "rentChassis": true,
+                    "returnRentalChassis": null,
+                    "chassisSupplier": "saam suplier",
+                    "rentDescription": "sdsdsdsdsd",
+                    "linkedEvent": null,
+                    "isLinked": false
+                },
+                {
+                    "id": 96270,
+                    "tripActivityEventId": 166032,
+                    "eventType": "MOUNT",
+                    "addressStr": "1155 Polaris St, NJ, Elizabeth, 07201-3100",
+                    "orderNo": 2,
+                    "status": "RELEASED",
+                    "selectedStartDateTime": null,
+                    "selectedEndDateTime": null,
+                    "proceedDateTime": null,
+                    "appointmentDate": null,
+                    "appointmentNumber": null,
+                    "appointmentStatus": null,
+                    "addressType": "TERMINAL",
+                    "addressLat": 40.6772965,
+                    "addressLong": -74.1617524,
+                    "email": null,
+                    "address": {
+                        "id": 877,
+                        "name": "CCS DEPOT",
+                        "latitude": "40.6772965",
+                        "longitude": "-74.1617524",
+                        "addressType": "TERMINAL",
+                        "state": {
+                            "name": "New Jersey",
+                            "code": "NJ"
+                        },
+                        "city": {
+                            "id": 29970,
+                            "name": "Elizabeth"
+                        },
+                        "zipCode": "07201-3100",
+                        "address1": "1155 Polaris St",
+                        "address2": "",
+                        "isGeneric": false
+                    },
+                    "chassis": null,
+                    "chassisType": null,
+                    "eventNotes": [],
+                    "rentChassis": null,
+                    "returnRentalChassis": null,
+                    "chassisSupplier": null,
+                    "rentDescription": null,
+                    "linkedEvent": null,
+                    "isLinked": false
+                },
+                {
+                    "id": 96271,
+                    "tripActivityEventId": 166033,
+                    "eventType": "DROP",
+                    "addressStr": "209 N Michigan Ave, NJ, Kenilworth, 07033-1264",
+                    "orderNo": 3,
+                    "status": "RELEASED",
+                    "selectedStartDateTime": null,
+                    "selectedEndDateTime": null,
+                    "proceedDateTime": null,
+                    "appointmentDate": null,
+                    "appointmentNumber": null,
+                    "appointmentStatus": null,
+                    "addressType": "BUSINESS_PARTY",
+                    "addressLat": 40.68111,
+                    "addressLong": -74.2883765,
+                    "email": "Qp.team@modeglobal.com,Michelle.purkiss@modeglobal.com,gizem.vatan@portx.net,sendmybill@modeglobal.com",
+                    "address": {
+                        "id": 1969,
+                        "name": "SYNRAY CORP",
+                        "latitude": "40.68111",
+                        "longitude": "-74.2883765",
+                        "addressType": "BUSINESS_PARTY",
+                        "state": {
+                            "name": "New Jersey",
+                            "code": "NJ"
+                        },
+                        "city": {
+                            "id": 13097,
+                            "name": "Kenilworth"
+                        },
+                        "zipCode": "07033-1264",
+                        "address1": "209 N Michigan Ave",
+                        "address2": "",
+                        "isGeneric": false
+                    },
+                    "chassis": null,
+                    "chassisType": null,
+                    "eventNotes": [],
+                    "rentChassis": null,
+                    "returnRentalChassis": null,
+                    "chassisSupplier": null,
+                    "rentDescription": null,
+                    "linkedEvent": null,
+                    "isLinked": false
+                }
+            ]
+        }
+    ]
+}
