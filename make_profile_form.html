@@ -101,6 +101,7 @@
       };
       if (tg) {
         tg.sendData(JSON.stringify(profile));
+        alert("Profile submitted!");
         tg.close();
       } else {
         alert("Please open this form from Telegram.");
