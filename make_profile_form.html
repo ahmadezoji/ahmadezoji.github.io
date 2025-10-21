@@ -1,84 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile Form</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-family: Arial, sans-serif;
+      padding: 20px;
       margin: 0;
-      padding: 16px;
-      background-color: var(--tg-theme-bg-color, #ffffff);
-      color: var(--tg-theme-text-color, #000);
-      box-sizing: border-box;
-      min-height: 100vh;
     }
-
-    h3 {
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
     label {
-      font-size: 15px;
-      display: flex;
-      flex-direction: column;
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
     }
-
     input, select, textarea {
-      padding: 10px;
-      font-size: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
       width: 100%;
+      padding: 8px;
+      margin-top: 5px;
       box-sizing: border-box;
     }
-
-    button {
-      background-color: var(--tg-theme-button-color, #0088cc);
-      color: var(--tg-theme-button-text-color, #fff);
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    /* Make multi-select scrollable and comfortable on mobile */
     select[multiple] {
-      height: 80px;
+      height: 100px;
     }
   </style>
 </head>
-
 <body>
   <h3>Enter Profile Details</h3>
   <form id="profileForm">
-    <label>Name: <input type="text" id="name" required /></label><br><br>
-    <label>Surname: <input type="text" id="surname" required /></label><br><br>
-    <label>Email: <input type="email" id="email" required /></label><br><br>
-    <label>Platforms:<br>
+    <label>Name: 
+      <input type="text" id="name" required />
+    </label>
+    
+    <label>Surname: 
+      <input type="text" id="surname" required />
+    </label>
+    
+    <label>Email: 
+      <input type="email" id="email" required />
+    </label>
+    
+    <label>Platforms:
       <select id="platforms" multiple>
         <option>freelancer</option>
         <option>upwork</option>
         <option>fiverr</option>
         <option>toptal</option>
       </select>
-    </label><br><br>
-    <label>Positions:<br>
+    </label>
+    
+    <label>Positions:
       <select id="positions" multiple>
         <option>front developer</option>
         <option>back developer</option>
@@ -87,40 +60,57 @@
         <option>devops engineer</option>
         <option>mobile developer</option>
       </select>
-    </label><br><br>
-    <label>Skills: <input type="text" id="skills" placeholder="Comma separated" /></label><br><br>
-    <label>Hourly Rate: <input type="number" id="hourly_rate" /></label><br><br>
-    <label>Fixed Rate Min: <input type="number" id="fixed_rate_min" /></label><br><br>
-    <label>Fixed Rate Max: <input type="number" id="fixed_rate_max" /></label><br><br>
-    <label>Currency:<br>
+    </label>
+    
+    <label>Skills: 
+      <input type="text" id="skills" placeholder="Comma separated" />
+    </label>
+    
+    <label>Hourly Rate: 
+      <input type="number" id="hourly_rate" />
+    </label>
+    
+    <label>Fixed Rate Min: 
+      <input type="number" id="fixed_rate_min" />
+    </label>
+    
+    <label>Fixed Rate Max: 
+      <input type="number" id="fixed_rate_max" />
+    </label>
+    
+    <label>Currency:
       <select id="currency">
         <option>USD</option>
         <option>EUR</option>
         <option>GBP</option>
       </select>
-    </label><br><br>
-    <label>Availability:<br>
+    </label>
+    
+    <label>Availability:
       <select id="availability">
         <option>part-time</option>
         <option>full-time</option>
         <option>hourly</option>
       </select>
-    </label><br><br>
-    <label>Experience Level:<br>
+    </label>
+    
+    <label>Experience Level:
       <select id="experience_level">
         <option>entry</option>
         <option>intermediate</option>
         <option>expert</option>
       </select>
-    </label><br><br>
-    <label>Location:<br>
+    </label>
+    
+    <label>Location:
       <select id="location">
         <option>remote</option>
         <option>on-site</option>
         <option>hybrid</option>
       </select>
-    </label><br><br>
-    <label>Languages:<br>
+    </label>
+    
+    <label>Languages:
       <select id="languages" multiple>
         <option>English</option>
         <option>Spanish</option>
@@ -128,27 +118,41 @@
         <option>German</option>
         <option>Chinese</option>
       </select>
-    </label><br><br>
-    <label>Experience: <textarea id="experience"></textarea></label><br><br>
-    <button type="submit">Submit</button>
+    </label>
+    
+    <label>Experience: 
+      <textarea id="experience" rows="4"></textarea>
+    </label>
+    
+    <div style="height: 100px;"></div>
   </form>
-
+  
   <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) tg.expand();
-
-    document.getElementById("profileForm").onsubmit = function (e) {
-      e.preventDefault();
-
-      const getMulti = (id) =>
-        Array.from(document.getElementById(id).selectedOptions).map((o) => o.value);
-
+    // Initialize Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    
+    console.log('Telegram WebApp initialized:', tg);
+    console.log('WebApp version:', tg.version);
+    console.log('Platform:', tg.platform);
+    
+    // Expand the WebApp to full height
+    tg.expand();
+    
+    // Tell Telegram the WebApp is ready
+    tg.ready();
+    
+    // Function to collect form data
+    function getMultiSelect(id) {
+      return Array.from(document.getElementById(id).selectedOptions).map(opt => opt.value);
+    }
+    
+    function collectFormData() {
       const profile = {
         name: document.getElementById("name").value,
         surname: document.getElementById("surname").value,
         email: document.getElementById("email").value,
-        platforms: getMulti("platforms"),
-        positions: getMulti("positions"),
+        platforms: getMultiSelect("platforms"),
+        positions: getMultiSelect("positions"),
         skills: document.getElementById("skills").value,
         hourly_rate: document.getElementById("hourly_rate").value,
         fixed_rate_min: document.getElementById("fixed_rate_min").value,
@@ -157,18 +161,80 @@
         availability: document.getElementById("availability").value,
         experience_level: document.getElementById("experience_level").value,
         location: document.getElementById("location").value,
-        languages: getMulti("languages"),
-        experience: document.getElementById("experience").value,
+        languages: getMultiSelect("languages"),
+        experience: document.getElementById("experience").value
       };
-
-      if (tg) {
-        tg.sendData(JSON.stringify(profile));
-        alert("Profile submitted!");
-        tg.close();
-      } else {
-        alert("Please open this form inside Telegram.");
+      return profile;
+    }
+    
+    // Validate form
+    function validateForm() {
+      const name = document.getElementById("name").value;
+      const surname = document.getElementById("surname").value;
+      const email = document.getElementById("email").value;
+      
+      if (!name || !surname || !email) {
+        tg.showAlert("Please fill in all required fields (Name, Surname, Email)");
+        return false;
       }
+      return true;
+    }
+    
+    // Setup MainButton
+    tg.MainButton.text = "Submit Profile";
+    tg.MainButton.show();
+    
+    // Handle MainButton click
+    tg.MainButton.onClick(function() {
+      console.log('MainButton clicked');
+      
+      if (!validateForm()) {
+        return;
+      }
+      
+      const profile = collectFormData();
+      const jsonData = JSON.stringify(profile);
+      
+      console.log('Sending data:', jsonData);
+      console.log('Data length:', jsonData.length);
+      
+      // Send data to bot
+      tg.sendData(jsonData);
+      
+      // The WebApp will close automatically after sendData
+    });
+    
+    // Also handle form submission (backup method)
+    document.getElementById("profileForm").onsubmit = function(e) {
+      e.preventDefault();
+      console.log('Form submitted via submit event');
+      
+      if (!validateForm()) {
+        return;
+      }
+      
+      const profile = collectFormData();
+      const jsonData = JSON.stringify(profile);
+      
+      console.log('Sending data:', jsonData);
+      tg.sendData(jsonData);
     };
+    
+    // Enable MainButton when form is valid
+    const requiredFields = ['name', 'surname', 'email'];
+    requiredFields.forEach(fieldId => {
+      document.getElementById(fieldId).addEventListener('input', function() {
+        const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
+        if (allFilled) {
+          tg.MainButton.enable();
+        } else {
+          tg.MainButton.disable();
+        }
+      });
+    });
+    
+    // Initially disable MainButton until required fields are filled
+    tg.MainButton.disable();
   </script>
 </body>
 </html>
