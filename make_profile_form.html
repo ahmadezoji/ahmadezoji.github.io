@@ -1,93 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Profile Form</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background-color: var(--tg-theme-bg-color, #ffffff);
+      color: var(--tg-theme-text-color, #000);
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+
+    h3 {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, select, textarea {
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: var(--tg-theme-button-color, #0088cc);
+      color: var(--tg-theme-button-text-color, #fff);
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    /* Make multi-select scrollable and comfortable on mobile */
+    select[multiple] {
+      height: 80px;
+    }
+  </style>
 </head>
+
 <body>
   <h3>Enter Profile Details</h3>
   <form id="profileForm">
-    <label>Name: <input type="text" id="name" required /></label><br><br>
-    <label>Surname: <input type="text" id="surname" required /></label><br><br>
-    <label>Email: <input type="email" id="email" required /></label><br><br>
-    <label>Platforms:<br>
-      <select id="platforms" multiple>
-        <option>freelancer</option>
-        <option>upwork</option>
-        <option>fiverr</option>
-        <option>toptal</option>
-      </select>
-    </label><br><br>
-    <label>Positions:<br>
-      <select id="positions" multiple>
-        <option>front developer</option>
-        <option>back developer</option>
-        <option>fullstack developer</option>
-        <option>data scientist</option>
-        <option>devops engineer</option>
-        <option>mobile developer</option>
-      </select>
-    </label><br><br>
-    <label>Skills: <input type="text" id="skills" placeholder="Comma separated" /></label><br><br>
-    <label>Hourly Rate: <input type="number" id="hourly_rate" /></label><br><br>
-    <label>Fixed Rate Min: <input type="number" id="fixed_rate_min" /></label><br><br>
-    <label>Fixed Rate Max: <input type="number" id="fixed_rate_max" /></label><br><br>
-    <label>Currency:<br>
-      <select id="currency">
-        <option>USD</option>
-        <option>EUR</option>
-        <option>GBP</option>
-      </select>
-    </label><br><br>
-    <label>Availability:<br>
-      <select id="availability">
-        <option>part-time</option>
-        <option>full-time</option>
-        <option>hourly</option>
-      </select>
-    </label><br><br>
-    <label>Experience Level:<br>
-      <select id="experience_level">
-        <option>entry</option>
-        <option>intermediate</option>
-        <option>expert</option>
-      </select>
-    </label><br><br>
-    <label>Location:<br>
-      <select id="location">
-        <option>remote</option>
-        <option>on-site</option>
-        <option>hybrid</option>
-      </select>
-    </label><br><br>
-    <label>Languages:<br>
-      <select id="languages" multiple>
-        <option>English</option>
-        <option>Spanish</option>
-        <option>French</option>
-        <option>German</option>
-        <option>Chinese</option>
-      </select>
-    </label><br><br>
-    <label>Experience: <textarea id="experience"></textarea></label><br><br>
+    <!-- keep all your fields here -->
+    <!-- ... -->
     <button type="submit">Submit</button>
   </form>
-  <script>
-    const tg = window.Telegram ? window.Telegram.WebApp : null;
 
-    document.getElementById("profileForm").onsubmit = function(e) {
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) tg.expand();
+
+    document.getElementById("profileForm").onsubmit = function (e) {
       e.preventDefault();
-      // Gather all form data
-      function getMultiSelect(id) {
-        return Array.from(document.getElementById(id).selectedOptions).map(opt => opt.value);
-      }
+
+      const getMulti = (id) =>
+        Array.from(document.getElementById(id).selectedOptions).map((o) => o.value);
+
       const profile = {
         name: document.getElementById("name").value,
         surname: document.getElementById("surname").value,
         email: document.getElementById("email").value,
-        platforms: getMultiSelect("platforms"),
-        positions: getMultiSelect("positions"),
+        platforms: getMulti("platforms"),
+        positions: getMulti("positions"),
         skills: document.getElementById("skills").value,
         hourly_rate: document.getElementById("hourly_rate").value,
         fixed_rate_min: document.getElementById("fixed_rate_min").value,
@@ -96,18 +96,18 @@
         availability: document.getElementById("availability").value,
         experience_level: document.getElementById("experience_level").value,
         location: document.getElementById("location").value,
-        languages: getMultiSelect("languages"),
-        experience: document.getElementById("experience").value
+        languages: getMulti("languages"),
+        experience: document.getElementById("experience").value,
       };
+
       if (tg) {
         tg.sendData(JSON.stringify(profile));
         alert("Profile submitted!");
         tg.close();
       } else {
-        alert("Please open this form from Telegram.");
+        alert("Please open this form inside Telegram.");
       }
     };
-    if (tg) tg.expand();
   </script>
 </body>
 </html>
