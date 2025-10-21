@@ -67,8 +67,69 @@
 <body>
   <h3>Enter Profile Details</h3>
   <form id="profileForm">
-    <!-- keep all your fields here -->
-    <!-- ... -->
+    <label>Name: <input type="text" id="name" required /></label><br><br>
+    <label>Surname: <input type="text" id="surname" required /></label><br><br>
+    <label>Email: <input type="email" id="email" required /></label><br><br>
+    <label>Platforms:<br>
+      <select id="platforms" multiple>
+        <option>freelancer</option>
+        <option>upwork</option>
+        <option>fiverr</option>
+        <option>toptal</option>
+      </select>
+    </label><br><br>
+    <label>Positions:<br>
+      <select id="positions" multiple>
+        <option>front developer</option>
+        <option>back developer</option>
+        <option>fullstack developer</option>
+        <option>data scientist</option>
+        <option>devops engineer</option>
+        <option>mobile developer</option>
+      </select>
+    </label><br><br>
+    <label>Skills: <input type="text" id="skills" placeholder="Comma separated" /></label><br><br>
+    <label>Hourly Rate: <input type="number" id="hourly_rate" /></label><br><br>
+    <label>Fixed Rate Min: <input type="number" id="fixed_rate_min" /></label><br><br>
+    <label>Fixed Rate Max: <input type="number" id="fixed_rate_max" /></label><br><br>
+    <label>Currency:<br>
+      <select id="currency">
+        <option>USD</option>
+        <option>EUR</option>
+        <option>GBP</option>
+      </select>
+    </label><br><br>
+    <label>Availability:<br>
+      <select id="availability">
+        <option>part-time</option>
+        <option>full-time</option>
+        <option>hourly</option>
+      </select>
+    </label><br><br>
+    <label>Experience Level:<br>
+      <select id="experience_level">
+        <option>entry</option>
+        <option>intermediate</option>
+        <option>expert</option>
+      </select>
+    </label><br><br>
+    <label>Location:<br>
+      <select id="location">
+        <option>remote</option>
+        <option>on-site</option>
+        <option>hybrid</option>
+      </select>
+    </label><br><br>
+    <label>Languages:<br>
+      <select id="languages" multiple>
+        <option>English</option>
+        <option>Spanish</option>
+        <option>French</option>
+        <option>German</option>
+        <option>Chinese</option>
+      </select>
+    </label><br><br>
+    <label>Experience: <textarea id="experience"></textarea></label><br><br>
     <button type="submit">Submit</button>
   </form>
 
