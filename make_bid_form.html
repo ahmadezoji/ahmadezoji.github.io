@@ -38,41 +38,45 @@
       };
     }
 
-    function validateBidForm() {
+    function validateBidForm(showAlert = false) {
       const amount = document.getElementById("amount").value;
       const period = document.getElementById("period").value;
-      if (!amount || !period || Number(amount) <= 0 || Number(period) <= 0) {
+      const valid = amount && period && Number(amount) > 0 && Number(period) > 0;
+      if (!valid && showAlert) {
         tg.showAlert("Please enter valid bid amount and period.");
-        return false;
       }
-      return true;
+      return valid;
     }
 
     tg.MainButton.text = "Submit Bid";
     tg.MainButton.show();
 
     tg.MainButton.onClick(function() {
-      if (!validateBidForm()) return;
+      if (!validateBidForm(true)) return;
       const bidData = collectBidData();
-      tg.sendData(JSON.stringify(bidData));
+      const jsonData = JSON.stringify(bidData);
+      tg.sendData(jsonData);
+      tg.close();
     });
 
     document.getElementById("bidForm").onsubmit = function(e) {
       e.preventDefault();
-      if (!validateBidForm()) return;
+      if (!validateBidForm(true)) return;
       const bidData = collectBidData();
-      tg.sendData(JSON.stringify(bidData));
+      const jsonData = JSON.stringify(bidData);
+      tg.sendData(jsonData);
+      tg.close();
     };
 
-    // Enable/disable MainButton based on required fields
+    // Enable/disable MainButton based on required fields, but don't show alert on input
     ["amount", "period"].forEach(id => {
       document.getElementById(id).addEventListener('input', function() {
-        const valid = validateBidForm();
-        if (valid) tg.MainButton.enable();
+        if (validateBidForm(false)) tg.MainButton.enable();
         else tg.MainButton.disable();
       });
     });
 
+    // Initially disable MainButton until required fields are filled
     tg.MainButton.disable();
   </script>
 </body>
