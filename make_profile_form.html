@@ -250,32 +250,36 @@
       });
     }
 
-    // Call prefill and set defaults on load
-    prefillFormFromProfile();
-    setDefaultValuesIfEmpty();
-
     // Enable MainButton when only required fields are filled
     const requiredFields = ['name', 'surname', 'email'];
-    requiredFields.forEach(fieldId => {
-      document.getElementById(fieldId).addEventListener('input', function() {
-        const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
-        if (allFilled) {
-          tg.MainButton.enable();
-        } else {
-          tg.MainButton.disable();
-        }
+    let initialRequiredValues = {};
+    // Save initial values for edit mode
+    function saveInitialRequiredValues() {
+      requiredFields.forEach(id => {
+        initialRequiredValues[id] = document.getElementById(id).value.trim();
       });
-    });
+    }
+    // Call after prefill and setDefaultValuesIfEmpty
+    prefillFormFromProfile();
+    setDefaultValuesIfEmpty();
+    saveInitialRequiredValues();
 
-    // Initially enable/disable MainButton based on required fields only
-    (function() {
+    // Only enable MainButton if required fields are filled AND at least one required field changed
+    function checkEnableMainButton() {
       const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
-      if (allFilled) {
+      const changed = requiredFields.some(id => document.getElementById(id).value.trim() !== initialRequiredValues[id]);
+      if (allFilled && changed) {
         tg.MainButton.enable();
       } else {
         tg.MainButton.disable();
       }
-    })();
+    }
+    requiredFields.forEach(fieldId => {
+      document.getElementById(fieldId).addEventListener('input', checkEnableMainButton);
+    });
+
+    // Initially enable/disable MainButton based on required fields and change
+    checkEnableMainButton();
     
     // Disable context menu long press on inputs
     document.querySelectorAll('input, textarea').forEach(el => {
