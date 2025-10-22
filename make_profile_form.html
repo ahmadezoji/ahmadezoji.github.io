@@ -221,7 +221,40 @@
       tg.sendData(jsonData);
     };
     
-    // Enable MainButton when form is valid
+    // Set default values for non-required fields if empty
+    function setDefaultValuesIfEmpty() {
+      if (!document.getElementById("skills").value)
+        document.getElementById("skills").value = "";
+      if (!document.getElementById("hourly_rate").value)
+        document.getElementById("hourly_rate").value = "0";
+      if (!document.getElementById("fixed_rate_min").value)
+        document.getElementById("fixed_rate_min").value = "0";
+      if (!document.getElementById("fixed_rate_max").value)
+        document.getElementById("fixed_rate_max").value = "0";
+      if (!document.getElementById("currency").value)
+        document.getElementById("currency").value = "USD";
+      if (!document.getElementById("availability").value)
+        document.getElementById("availability").value = "part-time";
+      if (!document.getElementById("experience_level").value)
+        document.getElementById("experience_level").value = "entry";
+      if (!document.getElementById("location").value)
+        document.getElementById("location").value = "remote";
+      if (!document.getElementById("experience").value)
+        document.getElementById("experience").value = "";
+      // For multi-selects, select first option if none selected
+      ["platforms", "positions", "languages"].forEach(id => {
+        const sel = document.getElementById(id);
+        if (sel && sel.selectedOptions.length === 0 && sel.options.length > 0) {
+          sel.options[0].selected = true;
+        }
+      });
+    }
+
+    // Call prefill and set defaults on load
+    prefillFormFromProfile();
+    setDefaultValuesIfEmpty();
+
+    // Enable MainButton when only required fields are filled
     const requiredFields = ['name', 'surname', 'email'];
     requiredFields.forEach(fieldId => {
       document.getElementById(fieldId).addEventListener('input', function() {
@@ -233,50 +266,21 @@
         }
       });
     });
-    
-    // Initially disable MainButton until required fields are filled
-    tg.MainButton.disable();
-    
-    // Prefill form if ?profile=... is present in URL
-    function prefillFormFromProfile() {
-      const params = new URLSearchParams(window.location.search);
-      if (!params.has('profile')) return;
-      try {
-        const profile = JSON.parse(decodeURIComponent(params.get('profile')));
-        if (profile.name) document.getElementById("name").value = profile.name;
-        if (profile.surname) document.getElementById("surname").value = profile.surname;
-        if (profile.email) document.getElementById("email").value = profile.email;
-        if (Array.isArray(profile.platforms)) {
-          Array.from(document.getElementById("platforms").options).forEach(opt => {
-            opt.selected = profile.platforms.includes(opt.value);
-          });
-        }
-        if (Array.isArray(profile.positions)) {
-          Array.from(document.getElementById("positions").options).forEach(opt => {
-            opt.selected = profile.positions.includes(opt.value);
-          });
-        }
-        if (profile.skills) document.getElementById("skills").value = profile.skills;
-        if (profile.hourly_rate) document.getElementById("hourly_rate").value = profile.hourly_rate;
-        if (profile.fixed_rate_min) document.getElementById("fixed_rate_min").value = profile.fixed_rate_min;
-        if (profile.fixed_rate_max) document.getElementById("fixed_rate_max").value = profile.fixed_rate_max;
-        if (profile.currency) document.getElementById("currency").value = profile.currency;
-        if (profile.availability) document.getElementById("availability").value = profile.availability;
-        if (profile.experience_level) document.getElementById("experience_level").value = profile.experience_level;
-        if (profile.location) document.getElementById("location").value = profile.location;
-        if (Array.isArray(profile.languages)) {
-          Array.from(document.getElementById("languages").options).forEach(opt => {
-            opt.selected = profile.languages.includes(opt.value);
-          });
-        }
-        if (profile.experience) document.getElementById("experience").value = profile.experience;
-      } catch (e) {
-        console.log("Failed to prefill profile:", e);
-      }
-    }
 
-    // Call prefill on load
-    prefillFormFromProfile();
+    // Initially enable/disable MainButton based on required fields only
+    (function() {
+      const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
+      if (allFilled) {
+        tg.MainButton.enable();
+      } else {
+        tg.MainButton.disable();
+      }
+    })();
+    
+    // Disable context menu long press on inputs
+    document.querySelectorAll('input, textarea').forEach(el => {
+      el.addEventListener('contextmenu', e => e.preventDefault());
+    });
   </script>
 </body>
 </html>
