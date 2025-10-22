@@ -236,6 +236,47 @@
     
     // Initially disable MainButton until required fields are filled
     tg.MainButton.disable();
+    
+    // Prefill form if ?profile=... is present in URL
+    function prefillFormFromProfile() {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has('profile')) return;
+      try {
+        const profile = JSON.parse(decodeURIComponent(params.get('profile')));
+        if (profile.name) document.getElementById("name").value = profile.name;
+        if (profile.surname) document.getElementById("surname").value = profile.surname;
+        if (profile.email) document.getElementById("email").value = profile.email;
+        if (Array.isArray(profile.platforms)) {
+          Array.from(document.getElementById("platforms").options).forEach(opt => {
+            opt.selected = profile.platforms.includes(opt.value);
+          });
+        }
+        if (Array.isArray(profile.positions)) {
+          Array.from(document.getElementById("positions").options).forEach(opt => {
+            opt.selected = profile.positions.includes(opt.value);
+          });
+        }
+        if (profile.skills) document.getElementById("skills").value = profile.skills;
+        if (profile.hourly_rate) document.getElementById("hourly_rate").value = profile.hourly_rate;
+        if (profile.fixed_rate_min) document.getElementById("fixed_rate_min").value = profile.fixed_rate_min;
+        if (profile.fixed_rate_max) document.getElementById("fixed_rate_max").value = profile.fixed_rate_max;
+        if (profile.currency) document.getElementById("currency").value = profile.currency;
+        if (profile.availability) document.getElementById("availability").value = profile.availability;
+        if (profile.experience_level) document.getElementById("experience_level").value = profile.experience_level;
+        if (profile.location) document.getElementById("location").value = profile.location;
+        if (Array.isArray(profile.languages)) {
+          Array.from(document.getElementById("languages").options).forEach(opt => {
+            opt.selected = profile.languages.includes(opt.value);
+          });
+        }
+        if (profile.experience) document.getElementById("experience").value = profile.experience;
+      } catch (e) {
+        console.log("Failed to prefill profile:", e);
+      }
+    }
+
+    // Call prefill on load
+    prefillFormFromProfile();
   </script>
 </body>
 </html>
