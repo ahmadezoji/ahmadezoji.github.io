@@ -128,8 +128,6 @@
   </form>
   
   <script>
-    console.log("Is running in Telegram:", window.Telegram?.WebApp?.initDataUnsafe);
-
     // Initialize Telegram WebApp
     const tg = window.Telegram.WebApp;
     
@@ -188,38 +186,23 @@
     tg.MainButton.show();
     
     // Handle MainButton click
-    // In your HTML form, update the MainButton click handler:
     tg.MainButton.onClick(function() {
-        console.log('MainButton clicked');
-        
-        if (!validateForm()) {
-            return;
-        }
-        
-        const profile = collectFormData();
-        const jsonData = JSON.stringify(profile);
-        
-        console.log('Sending data:', jsonData);
-        console.log('Data length:', jsonData.length);
-        
-        // Show loading state
-        tg.MainButton.showProgress();
-        
-        // Send data to bot with error handling
-        try {
-            tg.sendData(jsonData);
-            console.log('Data sent successfully');
-            
-            // Close after a short delay to ensure data is sent
-            setTimeout(() => {
-                tg.close();
-            }, 500);
-            
-        } catch (error) {
-            console.error('Error sending data:', error);
-            tg.MainButton.hideProgress();
-            tg.showAlert('Failed to send data. Please try again.');
-        }
+      console.log('MainButton clicked');
+      
+      if (!validateForm()) {
+        return;
+      }
+      
+      const profile = collectFormData();
+      const jsonData = JSON.stringify(profile);
+      
+      console.log('Sending data:', jsonData);
+      console.log('Data length:', jsonData.length);
+      
+      // Send data to bot
+      tg.sendData(jsonData);
+      
+      // The WebApp will close automatically after sendData
     });
     
     // Also handle form submission (backup method)
