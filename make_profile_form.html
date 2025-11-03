@@ -6,52 +6,151 @@
   <title>Profile Form</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+    * {
       margin: 0;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      padding: 0;
       box-sizing: border-box;
     }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px;
+      background: var(--tg-theme-bg-color, #ffffff);
+      color: var(--tg-theme-text-color, #000000);
+    }
+    
+    h3 {
+      margin-bottom: 20px;
+      color: var(--tg-theme-text-color, #000000);
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--tg-theme-text-color, #000000);
+    }
+    
+    .required::after {
+      content: " *";
+      color: #e74c3c;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--tg-theme-hint-color, #ccc);
+      border-radius: 8px;
+      font-size: 16px;
+      background: var(--tg-theme-bg-color, #ffffff);
+      color: var(--tg-theme-text-color, #000000);
+      transition: border-color 0.3s;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--tg-theme-button-color, #0088cc);
+    }
+    
     select[multiple] {
-      height: 100px;
+      height: 120px;
+      padding: 8px;
+    }
+    
+    select[multiple] option {
+      padding: 8px;
+      margin: 2px 0;
+      border-radius: 4px;
+    }
+    
+    select[multiple] option:checked {
+      background: var(--tg-theme-button-color, #0088cc);
+      color: var(--tg-theme-button-text-color, #ffffff);
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      font-family: inherit;
+    }
+    
+    .hint {
+      font-size: 12px;
+      color: var(--tg-theme-hint-color, #999);
+      margin-top: 4px;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      color: var(--tg-theme-hint-color, #999);
+    }
+    
+    .loading.active {
+      display: block;
+    }
+    
+    .error-message {
+      background: #fee;
+      color: #c33;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .error-message.active {
+      display: block;
+    }
+    
+    .spacer {
+      height: 80px;
     }
   </style>
 </head>
 <body>
-  <h3>Enter Profile Details</h3>
+  <div class="error-message" id="errorMessage"></div>
+  
+  <h3>📋 Profile Information</h3>
+  
   <form id="profileForm">
-    <label>Name: 
-      <input type="text" id="name" required />
-    </label>
+    <div class="form-group">
+      <label class="required">Name</label>
+      <input type="text" id="name" placeholder="Enter your first name" required />
+    </div>
     
-    <label>Surname: 
-      <input type="text" id="surname" required />
-    </label>
+    <div class="form-group">
+      <label class="required">Surname</label>
+      <input type="text" id="surname" placeholder="Enter your last name" required />
+    </div>
     
-    <label>Email: 
-      <input type="email" id="email" required />
-    </label>
+    <div class="form-group">
+      <label class="required">Email</label>
+      <input type="email" id="email" placeholder="your.email@example.com" required />
+    </div>
     
-    <label>Platforms:
+    <div class="form-group">
+      <label>Platforms</label>
       <select id="platforms" multiple>
         <option>freelancer</option>
         <option>upwork</option>
         <option>fiverr</option>
         <option>toptal</option>
       </select>
-    </label>
+      <div class="hint">Hold Ctrl/Cmd to select multiple</div>
+    </div>
     
-    <label>Positions:
+    <div class="form-group">
+      <label>Positions</label>
       <select id="positions" multiple>
         <option>front developer</option>
         <option>back developer</option>
@@ -60,57 +159,68 @@
         <option>devops engineer</option>
         <option>mobile developer</option>
       </select>
-    </label>
+      <div class="hint">Hold Ctrl/Cmd to select multiple</div>
+    </div>
     
-    <label>Skills: 
-      <input type="text" id="skills" placeholder="Comma separated" />
-    </label>
+    <div class="form-group">
+      <label>Skills</label>
+      <input type="text" id="skills" placeholder="e.g., JavaScript, Python, React" />
+      <div class="hint">Comma separated values</div>
+    </div>
     
-    <label>Hourly Rate: 
-      <input type="number" id="hourly_rate" />
-    </label>
+    <div class="form-group">
+      <label>Hourly Rate ($)</label>
+      <input type="number" id="hourly_rate" min="0" step="1" placeholder="e.g., 50" />
+    </div>
     
-    <label>Fixed Rate Min: 
-      <input type="number" id="fixed_rate_min" />
-    </label>
+    <div class="form-group">
+      <label>Fixed Rate Minimum ($)</label>
+      <input type="number" id="fixed_rate_min" min="0" step="1" placeholder="e.g., 100" />
+    </div>
     
-    <label>Fixed Rate Max: 
-      <input type="number" id="fixed_rate_max" />
-    </label>
+    <div class="form-group">
+      <label>Fixed Rate Maximum ($)</label>
+      <input type="number" id="fixed_rate_max" min="0" step="1" placeholder="e.g., 5000" />
+    </div>
     
-    <label>Currency:
+    <div class="form-group">
+      <label>Currency</label>
       <select id="currency">
         <option>USD</option>
         <option>EUR</option>
         <option>GBP</option>
       </select>
-    </label>
+    </div>
     
-    <label>Availability:
+    <div class="form-group">
+      <label>Availability</label>
       <select id="availability">
         <option>part-time</option>
         <option>full-time</option>
         <option>hourly</option>
       </select>
-    </label>
+    </div>
     
-    <label>Experience Level:
+    <div class="form-group">
+      <label>Experience Level</label>
       <select id="experience_level">
         <option>entry</option>
         <option>intermediate</option>
         <option>expert</option>
       </select>
-    </label>
+    </div>
     
-    <label>Location:
+    <div class="form-group">
+      <label>Location</label>
       <select id="location">
         <option>remote</option>
         <option>on-site</option>
         <option>hybrid</option>
       </select>
-    </label>
+    </div>
     
-    <label>Languages:
+    <div class="form-group">
+      <label>Languages</label>
       <select id="languages" multiple>
         <option>English</option>
         <option>Spanish</option>
@@ -118,22 +228,34 @@
         <option>German</option>
         <option>Chinese</option>
       </select>
-    </label>
+      <div class="hint">Hold Ctrl/Cmd to select multiple</div>
+    </div>
     
-    <label>Experience: 
-      <textarea id="experience" rows="4"></textarea>
-    </label>
-    
-    <div style="height: 100px;"></div>
+    <div class="form-group">
+      <label>Experience</label>
+      <textarea id="experience" rows="4" placeholder="Describe your professional experience..."></textarea>
+    </div>
   </form>
+  
+  <div class="loading" id="loading">
+    <p>📤 Sending your profile...</p>
+  </div>
+  
+  <div class="spacer"></div>
   
   <script>
     // Initialize Telegram WebApp
     const tg = window.Telegram.WebApp;
     
-    console.log('Telegram WebApp initialized:', tg);
-    console.log('WebApp version:', tg.version);
-    console.log('Platform:', tg.platform);
+    console.log('🚀 Telegram WebApp initialized');
+    console.log('📱 WebApp version:', tg.version);
+    console.log('💻 Platform:', tg.platform);
+    console.log('🎨 Theme:', tg.colorScheme);
+    
+    // Check if WebApp API is supported
+    if (!tg.initDataUnsafe || !tg.version) {
+      showError('⚠️ Please update your Telegram app to use this feature');
+    }
     
     // Expand the WebApp to full height
     tg.expand();
@@ -141,19 +263,36 @@
     // Tell Telegram the WebApp is ready
     tg.ready();
     
-    // Function to collect form data
-    function getMultiSelect(id) {
-      return Array.from(document.getElementById(id).selectedOptions).map(opt => opt.value);
+    // Apply Telegram theme colors
+    document.body.style.backgroundColor = tg.themeParams.bg_color || '#ffffff';
+    document.body.style.color = tg.themeParams.text_color || '#000000';
+    
+    // Helper function to show errors
+    function showError(message) {
+      const errorEl = document.getElementById('errorMessage');
+      errorEl.textContent = message;
+      errorEl.classList.add('active');
+      setTimeout(() => {
+        errorEl.classList.remove('active');
+      }, 5000);
     }
     
+    // Function to get multi-select values
+    function getMultiSelect(id) {
+      const select = document.getElementById(id);
+      return Array.from(select.selectedOptions).map(opt => opt.value);
+    }
+    
+    // Function to collect form data
     function collectFormData() {
       const profile = {
-        name: document.getElementById("name").value,
-        surname: document.getElementById("surname").value,
-        email: document.getElementById("email").value,
+        type: "profile",
+        name: document.getElementById("name").value.trim(),
+        surname: document.getElementById("surname").value.trim(),
+        email: document.getElementById("email").value.trim(),
         platforms: getMultiSelect("platforms"),
         positions: getMultiSelect("positions"),
-        skills: document.getElementById("skills").value,
+        skills: document.getElementById("skills").value.trim(),
         hourly_rate: document.getElementById("hourly_rate").value,
         fixed_rate_min: document.getElementById("fixed_rate_min").value,
         fixed_rate_max: document.getElementById("fixed_rate_max").value,
@@ -162,32 +301,45 @@
         experience_level: document.getElementById("experience_level").value,
         location: document.getElementById("location").value,
         languages: getMultiSelect("languages"),
-        experience: document.getElementById("experience").value
+        experience: document.getElementById("experience").value.trim()
       };
-      profile.type = "profile"; // Add this line
       return profile;
     }
     
     // Validate form
     function validateForm() {
-      const name = document.getElementById("name").value;
-      const surname = document.getElementById("surname").value;
-      const email = document.getElementById("email").value;
+      const name = document.getElementById("name").value.trim();
+      const surname = document.getElementById("surname").value.trim();
+      const email = document.getElementById("email").value.trim();
       
-      if (!name || !surname || !email) {
-        tg.showAlert("Please fill in all required fields (Name, Surname, Email)");
+      if (!name) {
+        showError("❌ Please enter your name");
         return false;
       }
+      
+      if (!surname) {
+        showError("❌ Please enter your surname");
+        return false;
+      }
+      
+      if (!email) {
+        showError("❌ Please enter your email");
+        return false;
+      }
+      
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showError("❌ Please enter a valid email address");
+        return false;
+      }
+      
       return true;
     }
     
-    // Setup MainButton
-    tg.MainButton.text = "Submit Profile";
-    tg.MainButton.show();
-    
-    // Handle MainButton click
-    tg.MainButton.onClick(function() {
-      console.log('MainButton clicked');
+    // Function to send data
+    function sendProfileData() {
+      console.log('📝 Validating form...');
       
       if (!validateForm()) {
         return;
@@ -196,51 +348,92 @@
       const profile = collectFormData();
       const jsonData = JSON.stringify(profile);
       
-      console.log('Sending data:', jsonData);
-      console.log('Data length:', jsonData.length);
+      console.log('✅ Form validated successfully');
+      console.log('📦 Profile data:', profile);
+      console.log('📏 Data length:', jsonData.length, 'bytes');
       
-      // Send data to bot
-      tg.sendData(jsonData);
+      // Show loading indicator
+      document.getElementById('loading').classList.add('active');
+      document.getElementById('profileForm').style.opacity = '0.5';
       
-      // The WebApp will close automatically after sendData
+      try {
+        // Send data to bot with button text for better tracking
+        console.log('📤 Sending data to Telegram...');
+        tg.sendData(jsonData);
+        
+        // Show success message after a short delay
+        setTimeout(() => {
+          console.log('✅ Data sent successfully!');
+          tg.showAlert("✅ Profile submitted successfully!", () => {
+            tg.close();
+          });
+        }, 500);
+        
+      } catch (error) {
+        console.error('❌ Error sending data:', error);
+        document.getElementById('loading').classList.remove('active');
+        document.getElementById('profileForm').style.opacity = '1';
+        showError('❌ Failed to send profile. Please try again.');
+        tg.showAlert("❌ Error: " + error.message);
+      }
+    }
+    
+    // Setup MainButton
+    tg.MainButton.setText("💾 Submit Profile");
+    tg.MainButton.color = tg.themeParams.button_color || '#0088cc';
+    tg.MainButton.textColor = tg.themeParams.button_text_color || '#ffffff';
+    tg.MainButton.show();
+    
+    // Handle MainButton click
+    tg.MainButton.onClick(function() {
+      console.log('🔘 MainButton clicked');
+      sendProfileData();
     });
     
     // Also handle form submission (backup method)
     document.getElementById("profileForm").onsubmit = function(e) {
       e.preventDefault();
-      console.log('Form submitted via submit event');
-      
-      if (!validateForm()) {
-        return;
-      }
-      
-      const profile = collectFormData();
-      const jsonData = JSON.stringify(profile);
-      
-      console.log('Sending data:', jsonData);
-      tg.sendData(jsonData);
+      console.log('📝 Form submitted via submit event');
+      sendProfileData();
     };
     
-    // Enable MainButton when form is valid
+    // Enable/disable MainButton based on required fields
     const requiredFields = ['name', 'surname', 'email'];
-    requiredFields.forEach(fieldId => {
-      document.getElementById(fieldId).addEventListener('input', function() {
-        const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
-        if (allFilled) {
-          tg.MainButton.enable();
-        } else {
-          tg.MainButton.disable();
-        }
+    
+    function updateMainButtonState() {
+      const allFilled = requiredFields.every(id => {
+        const value = document.getElementById(id).value.trim();
+        return value !== '';
       });
+      
+      if (allFilled) {
+        tg.MainButton.enable();
+        tg.MainButton.setParams({
+          color: tg.themeParams.button_color || '#0088cc'
+        });
+      } else {
+        tg.MainButton.disable();
+        tg.MainButton.setParams({
+          color: '#cccccc'
+        });
+      }
+    }
+    
+    requiredFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      field.addEventListener('input', updateMainButtonState);
+      field.addEventListener('blur', updateMainButtonState);
     });
     
     // Initially disable MainButton until required fields are filled
     tg.MainButton.disable();
+    tg.MainButton.setParams({ color: '#cccccc' });
     
-    // Helper to set value or default for input/select/textarea
+    // Helper to set value for input/select/textarea
     function setFieldValue(id, value) {
       const el = document.getElementById(id);
       if (!el) return;
+      
       if (el.tagName === "SELECT" && el.multiple && Array.isArray(value)) {
         Array.from(el.options).forEach(opt => {
           opt.selected = value.includes(opt.value);
@@ -256,9 +449,17 @@
     function fillFormFromProfile() {
       const params = new URLSearchParams(window.location.search);
       const profileStr = params.get('profile');
-      if (!profileStr) return;
+      
+      if (!profileStr) {
+        console.log('ℹ️ No profile data in URL - showing empty form');
+        return;
+      }
+      
       try {
+        console.log('📥 Loading profile data from URL...');
         const profile = JSON.parse(decodeURIComponent(profileStr));
+        console.log('✅ Profile loaded:', profile);
+        
         setFieldValue("name", profile.name || '');
         setFieldValue("surname", profile.surname || '');
         setFieldValue("email", profile.email || '');
@@ -274,13 +475,26 @@
         setFieldValue("location", profile.location || 'remote');
         setFieldValue("languages", profile.languages || []);
         setFieldValue("experience", profile.experience || '');
+        
+        // Update MainButton state after loading profile
+        updateMainButtonState();
+        
+        console.log('✅ Form filled with profile data');
       } catch (e) {
-        console.error("Failed to parse profile from URL:", e);
+        console.error("❌ Failed to parse profile from URL:", e);
+        showError('⚠️ Could not load profile data');
       }
     }
 
     // Call fillFormFromProfile on page load
     window.addEventListener('DOMContentLoaded', fillFormFromProfile);
+    
+    // Handle back button
+    tg.BackButton.onClick(function() {
+      tg.close();
+    });
+    
+    console.log('✅ Profile form ready!');
   </script>
 </body>
 </html>
